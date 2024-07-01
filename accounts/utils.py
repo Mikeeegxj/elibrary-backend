@@ -17,17 +17,16 @@ def generateOtp():
 def send_code_to_user(email):
     Subject = "Email Verification"
     otp_code = generateOtp()
-    verification_url = f"https://www.connectjcu.org/email-verification/{otp_code}"
+    verification_url = f"http://localhost:3000/email-verification/{otp_code}"
     print(otp_code)
     user = User.objects.get(email=email)
     email_body = format_html(
         "<p>Dear {0},</p>"
-        "<p>Thank you for registering on the ConnectJCU Platform.</p>"
+        "<p>Thank you for registering as a member at E-library Hub.</p>"
         "<p>To complete your registration, please verify your email address by clicking the link below:</p>"
         "<p><a href='{1}'>{1}</a></p><br>"
-        "<p>If you did not create an account on ConnectJCU, you can ignore this email.</p>"
         "<p>Best regards,</p>"
-        "<p>The ConnectJCU Team</p>",
+        "<p>E-Library Hub Info</p>",
         user.first_name,
         verification_url,
     )
