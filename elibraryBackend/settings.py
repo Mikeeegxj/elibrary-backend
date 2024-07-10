@@ -62,11 +62,13 @@ ROOT_URLCONF = "elibraryBackend.urls"
 # CORS_URLS_REGEX = r"^/api/.*" 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://localhost:3001',
     'https://localhost:3000',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
+    'http://localhost:3001',
     'https://localhost:3000',
 ]
 

@@ -12,6 +12,7 @@ class ResourceMixinListView(mixins.CreateModelMixin,mixins.ListModelMixin, gener
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
     # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         category_id = self.request.data.get('category')
@@ -33,7 +34,6 @@ class ResourceMixinListView(mixins.CreateModelMixin,mixins.ListModelMixin, gener
         sort_by = self.request.query_params.get('sort')
         search_term = self.request.query_params.get('search', None)
         category_id = self.request.query_params.get('category', None)
-        user_id = self.request.query_params.get('user', None)
 
         if sort_by:
             if sort_by.startswith('-'):
@@ -43,18 +43,11 @@ class ResourceMixinListView(mixins.CreateModelMixin,mixins.ListModelMixin, gener
                 queryset = queryset.order_by(sort_by)
 
         if search_term:
-            # Annotate the queryset with a full_name field
-            queryset = queryset.annotate(full_name=Concat('user__first_name', Value(' '), 'user__last_name'))
-            # Filter the queryset for blogs with titles containing the search term or users whose full name contains the search term
-            queryset = queryset.filter(Q(title__icontains=search_term) | Q(full_name__icontains=search_term))
+            queryset = queryset.filter(Q(title__icontains=search_term) | Q(author__icontains=search_term))
         
         if category_id:
-            # Filter the queryset for blogs that belong to the specified category
             queryset = queryset.filter(category__id=category_id)
         
-        if user_id:
-            queryset = queryset.filter(user__id=user_id)
-
         return queryset
 
     def get(self, request, *args, **kwargs):
