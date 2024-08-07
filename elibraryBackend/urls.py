@@ -13,4 +13,5 @@ urlpatterns = [
     path('api/v1/categories/', include('categories.urls')),
     path('api/v1/resources/', include('resources.urls')),
     path('api/v1/comments/', include('comments.urls')),
+    path('api/v1/favourites/', include('favourites.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
